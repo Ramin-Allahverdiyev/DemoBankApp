@@ -1,0 +1,29 @@
+server:
+  port: 8587
+  forward-headers-strategy: framework
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demoBank
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 210602
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+root:
+  url: /api/v1/bankApp
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  api-docs.path: /api-docs
+
