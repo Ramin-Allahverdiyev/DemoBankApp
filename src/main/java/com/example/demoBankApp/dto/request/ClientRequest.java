@@ -1,9 +1,12 @@
 package com.example.demoBankApp.dto.request;
 
+import com.example.demoBankApp.Validation.constraint.ValidEmail;
+import com.example.demoBankApp.Validation.constraint.ValidPassword;
 import com.example.demoBankApp.entity.AuthType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +24,10 @@ public class ClientRequest {
     private String name;
     private String surname;
     private String username;
+
     private String email;
+
+    @ValidPassword
     private String password;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;

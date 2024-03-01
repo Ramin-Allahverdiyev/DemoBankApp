@@ -3,6 +3,7 @@ package com.example.demoBankApp.controller;
 import com.example.demoBankApp.dto.request.ClientRequest;
 import com.example.demoBankApp.dto.response.ClientResponse;
 import com.example.demoBankApp.service.ClientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +20,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping("/register")
-    public Optional<ClientResponse> registerClient(@RequestBody ClientRequest request){
+    public Optional<ClientResponse> registerClient(@RequestBody @Valid ClientRequest request){
         return clientService.registerClient(request);
     }
 

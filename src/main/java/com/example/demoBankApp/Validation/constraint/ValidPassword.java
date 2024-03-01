@@ -17,9 +17,9 @@ import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Target({FIELD, ANNOTATION_TYPE, TYPE})
-@Retention(RUNTIME)
 @Constraint(validatedBy = PasswordConstraintValidator.class)
+@Target({TYPE, FIELD, ANNOTATION_TYPE})
+@Retention(RUNTIME)
 public @interface ValidPassword {
     String message() default ErrorMessages.INVALID_PASSWORD;
 
