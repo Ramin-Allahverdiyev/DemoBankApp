@@ -11,7 +11,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-03-03T21:05:32+0400",
+    date = "2024-03-04T12:09:15+0400",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.5.jar, environment: Java 20.0.1 (Oracle Corporation)"
 )
 public class AccountMapperImpl extends AccountMapper {

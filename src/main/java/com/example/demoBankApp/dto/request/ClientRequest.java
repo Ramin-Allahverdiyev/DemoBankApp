@@ -26,6 +26,7 @@ public class ClientRequest {
     private String surname;
     private String username;
 
+    @ValidEmail
     private String email;
 
     @ValidPassword

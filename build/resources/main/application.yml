@@ -27,3 +27,5 @@ springdoc:
     path: /swagger-ui.html
   api-docs.path: /api-docs
 
+secret:
+  key: def5ab2d4f1221ed119299302741e4ffd8490ff282a8279d428255c56691a14c
