@@ -1,5 +1,6 @@
 package com.example.demoBankApp.dto.request;
 
+import com.example.demoBankApp.Validation.constraint.ValidAge;
 import com.example.demoBankApp.Validation.constraint.ValidEmail;
 import com.example.demoBankApp.Validation.constraint.ValidPassword;
 import com.example.demoBankApp.entity.AuthType;
@@ -29,6 +30,8 @@ public class ClientRequest {
 
     @ValidPassword
     private String password;
+
+    @ValidAge
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
     @Enumerated(EnumType.STRING)
