@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @RestControllerAdvice
 public class ErrorHandler {
 
@@ -31,7 +33,7 @@ public class ErrorHandler {
                         .build());
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(HttpMessageNotReadableException ex){
+    public ResponseEntity<ErrorResponse> handleHttpExceptions(HttpMessageNotReadableException ex){
         int status= HttpStatus.BAD_REQUEST.value();
         return ResponseEntity.status(status)
                 .body(ErrorResponse.builder()
@@ -39,4 +41,16 @@ public class ErrorHandler {
                         .message(ex.getRootCause().getMessage())
                         .build());
     }
+
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleSqlIntegrityExceptions(SQLIntegrityConstraintViolationException ex){
+        int status= HttpStatus.BAD_REQUEST.value();
+        return ResponseEntity.status(status)
+                .body(ErrorResponse.builder()
+                        .status(status)
+                        .message(ex.getLocalizedMessage())
+                        .build());
+    }
+
 }

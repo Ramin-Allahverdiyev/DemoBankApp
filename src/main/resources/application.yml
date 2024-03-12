@@ -4,10 +4,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/demoBank
+    url: jdbc:mysql://localhost:3306/db
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 210602
+    username: user
+    password: password
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,6 +17,11 @@ spring:
         format_sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    enabled: true
+
+
 
 root:
   url: /api/v1/bankApp
@@ -29,3 +34,5 @@ springdoc:
 
 secret:
   key: def5ab2d4f1221ed119299302741e4ffd8490ff282a8279d428255c56691a14c
+
+

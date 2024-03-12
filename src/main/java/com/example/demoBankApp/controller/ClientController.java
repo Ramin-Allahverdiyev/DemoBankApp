@@ -24,7 +24,7 @@ public class ClientController {
         return clientService.registerClient(request);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public Page<ClientResponse> findAllByPage(@RequestParam(defaultValue = "0") int page,
                                               @RequestParam(defaultValue = "2") int sizePerPage,
                                               @RequestParam(defaultValue = "ID") String sortField,

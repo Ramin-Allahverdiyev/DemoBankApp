@@ -1,0 +1,1 @@
+insert into authority(name) values('ADMIN'),('USER');

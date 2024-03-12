@@ -6,17 +6,21 @@ import lombok.Getter;
 public enum AuthUrl {
 
     ADMIN("ADMIN", new String[] {
-            "/api/v1/bankApp/"
+            "/api/v1/bankApp/account/save",
+            "/api/v1/bankApp/branch/save",
+            "/api/v1/bankApp/account/filter",
+            "/api/v1/bankApp/client/all"
 
     }),
     USER("USER", new String[] {
-            "/api/v1/bankApp/account/filter"
+            "/api/v1/bankApp/account/filter",
+            "/api/v1/bankApp/client/all"
     }),
     PERMIT_ALL(null,new String[] {
             "/api/v1/bankApp/auth/login",
             "/api/v1/bankApp/client/register"
             ,"/api-docs/**",
-            "/swagger-ui/**","/api/v1/bankApp/**",
+            "/swagger-ui/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",

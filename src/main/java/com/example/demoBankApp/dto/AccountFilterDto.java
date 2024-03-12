@@ -13,10 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountFilterDto {
-    private Double amount;
-
-    private String IBAN;
-
     private Integer branchId;
 
     private Integer clientId;

@@ -28,6 +28,7 @@ public class SecurityConfig {
                                 .requestMatchers(AuthUrl.PERMIT_ALL.getUrls())
                                 .permitAll()
                                 .requestMatchers(AuthUrl.ADMIN.getUrls()).hasAuthority(AuthUrl.ADMIN.getRole())
+                                .requestMatchers(AuthUrl.USER.getUrls()).hasAuthority(AuthUrl.USER.getRole())
                                 .anyRequest()
                                 .authenticated())
                 .authenticationProvider(authenticationProvider)
