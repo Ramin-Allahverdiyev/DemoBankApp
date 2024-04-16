@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClientResponse {
+    private Integer id;
     private String name;
     private String surname;
     private String email;

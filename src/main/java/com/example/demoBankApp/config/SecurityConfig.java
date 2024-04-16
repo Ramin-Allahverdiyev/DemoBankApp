@@ -25,12 +25,13 @@ public class SecurityConfig {
         httpSecurity.csrf(CsrfConfigurer::disable);
         httpSecurity.authorizeHttpRequests(request ->
                         request
-                                .requestMatchers(AuthUrl.PERMIT_ALL.getUrls())
-                                .permitAll()
-                                .requestMatchers(AuthUrl.ADMIN.getUrls()).hasAuthority(AuthUrl.ADMIN.getRole())
-                                .requestMatchers(AuthUrl.USER.getUrls()).hasAuthority(AuthUrl.USER.getRole())
-                                .anyRequest()
-                                .authenticated())
+//                                .requestMatchers(AuthUrl.PERMIT_ALL.getUrls())
+//                                .permitAll()
+//                                .requestMatchers(AuthUrl.ADMIN.getUrls()).hasAuthority(AuthUrl.ADMIN.getRole())
+//                                .requestMatchers(AuthUrl.USER.getUrls()).hasAuthority(AuthUrl.USER.getRole())
+//                                .anyRequest()
+//                                .authenticated())
+                                .anyRequest().permitAll())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.headers((headers) -> headers.disable());
