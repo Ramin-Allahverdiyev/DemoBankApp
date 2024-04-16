@@ -11,6 +11,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,10 +19,13 @@ import java.util.List;
 public class ExcelExportUtils {
     private final XSSFWorkbook workbook;
     private XSSFSheet sheet;
-
     List<Client> clientList;
-    public ExcelExportUtils(List<Client> clientList){
+    List<String> allKeys;
+
+
+    public ExcelExportUtils(List<Client> clientList,List<String> allKeys){
         this.clientList=clientList;
+        this.allKeys=allKeys;
         workbook=new XSSFWorkbook();
     }
 
@@ -52,7 +56,7 @@ public class ExcelExportUtils {
         style.setFont(font);
         style.setAlignment(HorizontalAlignment.CENTER);
         createCell(row,0,"Client Information",style);
-        sheet.addMergedRegion(new CellRangeAddress(0,0,0,7));
+        sheet.addMergedRegion(new CellRangeAddress(0,0,0,7+allKeys.size()));
         font.setFontHeightInPoints((short) 10);
 
         row= sheet.createRow(1);
@@ -66,7 +70,6 @@ public class ExcelExportUtils {
         createCell(row,0,"USERNAME",style);
         createCell(row,0,"BIRTHDATE",style);
         createCell(row,0,"PHONE",style);
-
     }
 
     private void writeClientData(){
