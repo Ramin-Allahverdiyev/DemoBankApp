@@ -18,10 +18,11 @@ import java.util.List;
 public class ExcelService {
     private final PropertyService propertyService;
     private final ClientRepository clientRepository;
+    private final PropertiesRepository propertiesRepository;
 
     public List<Client> exportCustomerToExcel(HttpServletResponse response) throws IOException {
         List<Client> clients=clientRepository.findAll();
-        ExcelExportUtils exportUtils=new ExcelExportUtils(clients,propertyService.getAllKeys());
+        ExcelExportUtils exportUtils=new ExcelExportUtils(clients,propertyService.getAllKeys(),propertiesRepository);
         exportUtils.exportDataToExcel(response);
         return clients;
     }

@@ -37,7 +37,7 @@ public class ClientController {
         return clientService.findAllByPage(pageable);
     }
 
-    @GetMapping
+    @GetMapping("/export-to-excel")
     public void exportToExcel(HttpServletResponse response) throws IOException{
         response.setContentType("application/octet-stream");
         String headerKey="Content-Disposition";

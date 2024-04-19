@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,11 +34,11 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<String> getAllKeys() {
-        List<Properties> propertiesList = propertiesRepository.findAll();
-        return propertiesList.stream()
+    public Set<String> getAllKeys() {
+        List<Properties> propertiesSet = propertiesRepository.findAll();
+        return propertiesSet.stream()
                 .map(Properties::getKey)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
 }
