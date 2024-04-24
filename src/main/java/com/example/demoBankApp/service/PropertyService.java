@@ -10,5 +10,6 @@ import java.util.Set;
 
 public interface PropertyService {
     Optional<PropertyResponse> saveProperty(PropertyRequest request);
+
     Set<String> getAllKeys();
 }

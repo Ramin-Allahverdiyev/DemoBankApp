@@ -11,9 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -44,6 +48,15 @@ public class ClientController {
         String headerValue = "attachment; filename=Client_info.xlsx";
         response.setHeader(headerKey,headerValue);
         excelService.exportCustomerToExcel(response);
+    }
+
+    @RequestMapping(
+            path = "/upload",
+            method = RequestMethod.POST,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadExcelToDb(@RequestParam("file")MultipartFile file){
+        excelService.saveExcelToDatabase(file);
+        return ResponseEntity.ok(Map.of("Message", "Data uploaded sand saved to database!"));
     }
 
 }
