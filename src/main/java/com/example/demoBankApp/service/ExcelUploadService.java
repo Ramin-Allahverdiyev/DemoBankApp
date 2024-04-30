@@ -25,15 +25,20 @@ public class ExcelUploadService {
     }
 
     public static String cellValueAsString(Cell cell) {
-        if(cell.getCellType()== CellType.STRING ||cell.getCellType()== CellType.NUMERIC ||cell.getCellType()== CellType.BOOLEAN){
-            return switch (cell.getCellType()) {
-                case STRING -> cell.getStringCellValue();
-                case NUMERIC -> String.valueOf(cell.getNumericCellValue());
-                case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
-                default -> "null";
-            };
+        if (cell == null) {
+            return "no"; // Return "no" if the cell is null
         }
-        return null;
+
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            default:
+                return "no"; // Return "no" for other cell types
+        }
     }
 
 
@@ -44,7 +49,7 @@ public class ExcelUploadService {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheet = workbook.getSheet("Client Information");
             Row rowCol= sheet.getRow(1);
-            Iterator<Cell> columnIterator= rowCol.iterator();
+//            Iterator<Cell> columnIterator= rowCol.iterator();
             int rowIndex =0;
             for (Row row : sheet){
                 if (rowIndex <=1){
@@ -56,7 +61,7 @@ public class ExcelUploadService {
                 Client client = new Client();
                 while (cellIterator.hasNext()){
                     Cell cell = cellIterator.next();
-                    Cell colName=columnIterator.next();
+//                    Cell colName=columnIterator.next();
                     switch (cellIndex){
                         case 0 -> client.setId((int) cell.getNumericCellValue());
                         case 1 -> client.setName(cell.getStringCellValue());
@@ -66,15 +71,12 @@ public class ExcelUploadService {
                         case 5 -> client.setBirthDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                         case 6 -> client.setPhone(cell.getStringCellValue());
                         default -> {
-                            if(!Objects.equals(cellValueAsString(cell), "null")) {
-                                propertiesList.add(Properties.builder()
-                                        .client(client)
-                                        .key(colName.getStringCellValue())
-                                        .value(cellValueAsString(cell)).build());
-                            }
                         }
                     }
                     cellIndex++;
+
+                    if (cellIndex==7)
+                        break;
                 }
                 clientList.add(client);
             }
@@ -103,6 +105,7 @@ public class ExcelUploadService {
                 while (cellIterator.hasNext()){
                     Cell cell = cellIterator.next();
                     Cell colName=columnIterator.next();
+                    String cellValue = cellValueAsString(cell);
                     switch (cellIndex){
                         case 0 -> client.setId((int) cell.getNumericCellValue());
                         case 1 -> client.setName(cell.getStringCellValue());
@@ -112,11 +115,11 @@ public class ExcelUploadService {
                         case 5 -> client.setBirthDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                         case 6 -> client.setPhone(cell.getStringCellValue());
                         default -> {
-                            if(!Objects.equals(cellValueAsString(cell), "") ||cellValueAsString(cell)!=null) {
+                            if(cellValue != null && !cellValue.equals("no")) {
                                 propertiesList.add(Properties.builder()
                                         .client(client)
                                         .key(colName.getStringCellValue())
-                                        .value(cellValueAsString(cell)).build());
+                                        .value(cellValue).build());
                             }
                         }
                     }
