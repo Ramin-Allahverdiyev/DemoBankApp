@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ExcelUploadService {
     public static boolean isValidExcelFile(MultipartFile file){
@@ -69,7 +66,7 @@ public class ExcelUploadService {
                         case 3 -> client.setEmail(cell.getStringCellValue());
                         case 4 -> client.setUsername(cell.getStringCellValue());
                         case 5 -> client.setBirthDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                        case 6 -> client.setPhone(cell.getStringCellValue());
+                        case 6 -> client.setPhone(cellValueAsString(cell));
                         default -> {
                         }
                     }
@@ -92,7 +89,6 @@ public class ExcelUploadService {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheet = workbook.getSheet("Client Information");
             Row rowCol= sheet.getRow(1);
-            Iterator<Cell> columnIterator= rowCol.iterator();
             int rowIndex =0;
             for (Row row : sheet){
                 if (rowIndex <=1){
@@ -100,6 +96,7 @@ public class ExcelUploadService {
                     continue;
                 }
                 Iterator<Cell> cellIterator = row.iterator();
+                Iterator<Cell> columnIterator= rowCol.iterator();
                 int cellIndex = 0;
                 Client client = new Client();
                 while (cellIterator.hasNext()){
@@ -113,13 +110,18 @@ public class ExcelUploadService {
                         case 3 -> client.setEmail(cell.getStringCellValue());
                         case 4 -> client.setUsername(cell.getStringCellValue());
                         case 5 -> client.setBirthDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                        case 6 -> client.setPhone(cell.getStringCellValue());
+                        case 6 -> client.setPhone(cellValueAsString(cell));
                         default -> {
-                            if(cellValue != null && !cellValue.equals("no")) {
-                                propertiesList.add(Properties.builder()
-                                        .client(client)
-                                        .key(colName.getStringCellValue())
-                                        .value(cellValue).build());
+                            if (cellValue != null && !cellValue.equals("no")) {
+                                String key = colName.getStringCellValue().trim(); // Use column name as key
+                                // Check if the property already exists for this client
+                                if (!isPropertyExists(client, key, cellValue)) {
+                                    propertiesList.add(Properties.builder()
+                                            .client(client)
+                                            .key(key)
+                                            .value(cellValue)
+                                            .build());
+                                }
                             }
                         }
                     }
@@ -134,6 +136,14 @@ public class ExcelUploadService {
         return propertiesList;
     }
 
+    private static boolean isPropertyExists(Client client, String key, String value) {
+        // Check if a similar property already exists in the database for this client
+        Optional<Properties> existingProperty = client.getPropertiesList().stream()
+                .filter(prop -> prop.getKey().equals(key) && prop.getValue().equals(value))
+                .findFirst();
+
+        return existingProperty.isPresent();
+    }
 
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,12 @@ public class ExcelService {
             try{
                 List<Client> clients=ExcelUploadService.getClientsDataFromExcel(file.getInputStream());
                 List<Properties> properties=ExcelUploadService.getPropertiesExcel(file.getInputStream());
+                for (Client client : clients) {
+                    List<Properties> clientProperties = properties.stream()
+                            .filter(prop -> prop.getClient().equals(client))
+                            .collect(Collectors.toList());
+                    client.setPropertiesList(clientProperties);
+                }
                 clientRepository.saveAll(clients);
                 propertiesRepository.saveAll(properties);
             }catch (IOException e){
