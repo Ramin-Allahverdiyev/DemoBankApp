@@ -2,7 +2,7 @@ package com.example.demoBankApp.mapper;
 
 import com.example.demoBankApp.dto.request.PropertyRequest;
 import com.example.demoBankApp.dto.response.PropertyResponse;
-import com.example.demoBankApp.entity.Client;
+import com.example.demoBankApp.entity.Employee;
 import com.example.demoBankApp.entity.Properties;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-04-16T10:48:22+0400",
+    date = "2024-05-03T12:08:48+0400",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.5.jar, environment: Java 17.0.10 (Oracle Corporation)"
 )
 public class PropertyMapperImpl extends PropertyMapper {
@@ -24,7 +24,7 @@ public class PropertyMapperImpl extends PropertyMapper {
         Properties.PropertiesBuilder properties = Properties.builder();
 
         if ( request != null ) {
-            properties.client( propertyRequestToClient( request ) );
+            properties.employee( propertyRequestToEmployee( request ) );
         }
         if ( request.getKey() != null ) {
             properties.key( request.getKey() );
@@ -42,10 +42,10 @@ public class PropertyMapperImpl extends PropertyMapper {
             return;
         }
 
-        if ( properties.getClient() == null ) {
-            properties.setClient( Client.builder().build() );
+        if ( properties.getEmployee() == null ) {
+            properties.setEmployee( Employee.builder().build() );
         }
-        propertyRequestToClient1( request, properties.getClient() );
+        propertyRequestToEmployee1( request, properties.getEmployee() );
         if ( request.getKey() != null ) {
             properties.setKey( request.getKey() );
         }
@@ -62,9 +62,9 @@ public class PropertyMapperImpl extends PropertyMapper {
 
         PropertyResponse.PropertyResponseBuilder propertyResponse = PropertyResponse.builder();
 
-        Integer id = propertiesClientId( properties );
+        Integer id = propertiesEmployeeId( properties );
         if ( id != null ) {
-            propertyResponse.clientId( id );
+            propertyResponse.employeeId( id );
         }
         if ( properties.getKey() != null ) {
             propertyResponse.key( properties.getKey() );
@@ -90,39 +90,39 @@ public class PropertyMapperImpl extends PropertyMapper {
         return list;
     }
 
-    protected Client propertyRequestToClient(PropertyRequest propertyRequest) {
+    protected Employee propertyRequestToEmployee(PropertyRequest propertyRequest) {
         if ( propertyRequest == null ) {
             return null;
         }
 
-        Client.ClientBuilder client = Client.builder();
+        Employee.EmployeeBuilder employee = Employee.builder();
 
-        if ( propertyRequest.getClientId() != null ) {
-            client.id( propertyRequest.getClientId() );
+        if ( propertyRequest.getEmployeeId() != null ) {
+            employee.id( propertyRequest.getEmployeeId() );
         }
 
-        return client.build();
+        return employee.build();
     }
 
-    protected void propertyRequestToClient1(PropertyRequest propertyRequest, Client mappingTarget) {
+    protected void propertyRequestToEmployee1(PropertyRequest propertyRequest, Employee mappingTarget) {
         if ( propertyRequest == null ) {
             return;
         }
 
-        if ( propertyRequest.getClientId() != null ) {
-            mappingTarget.setId( propertyRequest.getClientId() );
+        if ( propertyRequest.getEmployeeId() != null ) {
+            mappingTarget.setId( propertyRequest.getEmployeeId() );
         }
     }
 
-    private Integer propertiesClientId(Properties properties) {
+    private Integer propertiesEmployeeId(Properties properties) {
         if ( properties == null ) {
             return null;
         }
-        Client client = properties.getClient();
-        if ( client == null ) {
+        Employee employee = properties.getEmployee();
+        if ( employee == null ) {
             return null;
         }
-        Integer id = client.getId();
+        Integer id = employee.getId();
         if ( id == null ) {
             return null;
         }

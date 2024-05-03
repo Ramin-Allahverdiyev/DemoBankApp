@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class PropertyRequest {
     private String key;
     private String value;
-    private Integer clientId;
+    private Integer employeeId;
 }

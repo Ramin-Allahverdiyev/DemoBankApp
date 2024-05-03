@@ -13,13 +13,13 @@ import java.util.List;
         ,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public abstract class PropertyMapper {
     public static final PropertyMapper INSTANCE= Mappers.getMapper(PropertyMapper.class);
-    @Mapping(target = "client.id",source = "clientId")
+    @Mapping(target = "employee.id",source = "employeeId")
     public abstract Properties dtoToEntity(PropertyRequest request);
-    @Mapping(target = "client.id",source = "clientId")
+    @Mapping(target = "employee.id",source = "employeeId")
     public abstract void dtoToEntity(@MappingTarget Properties properties, PropertyRequest request);
-    @Mapping(target = "clientId",source = "client.id")
+    @Mapping(target = "employeeId",source = "employee.id")
     public abstract PropertyResponse entityToDto(Properties properties);
-    @Mapping(target = "clientId",source = "client.id")
+    @Mapping(target = "employeeId",source = "employee.id")
     public abstract List<PropertyResponse> entityListToDtoList(List<Properties> properties);
 
 

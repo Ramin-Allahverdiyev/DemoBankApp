@@ -1,6 +1,7 @@
 package com.example.demoBankApp.service;
 
 import com.example.demoBankApp.entity.Client;
+import com.example.demoBankApp.entity.Employee;
 import com.example.demoBankApp.entity.Properties;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -39,8 +40,8 @@ public class ExcelUploadService {
     }
 
 
-    public static List<Client> getClientsDataFromExcel(InputStream inputStream){
-        List<Client> clientList = new ArrayList<>();
+    public static List<Employee> getClientsDataFromExcel(InputStream inputStream){
+        List<Employee> employeeList = new ArrayList<>();
         List<Properties> propertiesList = new ArrayList<>();
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
@@ -55,18 +56,17 @@ public class ExcelUploadService {
                 }
                 Iterator<Cell> cellIterator = row.iterator();
                 int cellIndex = 0;
-                Client client = new Client();
+                Employee employee = new Employee();
                 while (cellIterator.hasNext()){
                     Cell cell = cellIterator.next();
 //                    Cell colName=columnIterator.next();
                     switch (cellIndex){
-                        case 0 -> client.setId((int) cell.getNumericCellValue());
-                        case 1 -> client.setName(cell.getStringCellValue());
-                        case 2 -> client.setSurname(cell.getStringCellValue());
-                        case 3 -> client.setEmail(cell.getStringCellValue());
-                        case 4 -> client.setUsername(cell.getStringCellValue());
-                        case 5 -> client.setBirthDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                        case 6 -> client.setPhone(cellValueAsString(cell));
+                        case 0 -> employee.setId((int) cell.getNumericCellValue());
+                        case 1 -> employee.setName(cell.getStringCellValue());
+                        case 2 -> employee.setSurname(cell.getStringCellValue());
+                        case 3 -> employee.setUsername(cell.getStringCellValue());
+                        case 4 -> employee.setEmail(cell.getStringCellValue());
+                        case 5 -> employee.setBirthDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                         default -> {
                         }
                     }
@@ -75,12 +75,12 @@ public class ExcelUploadService {
                     if (cellIndex==7)
                         break;
                 }
-                clientList.add(client);
+                employeeList.add(employee);
             }
         } catch (IOException e) {
             e.getStackTrace();
         }
-        return clientList;
+        return employeeList;
     }
 
     public static List<Properties> getPropertiesExcel(InputStream inputStream){
@@ -98,30 +98,24 @@ public class ExcelUploadService {
                 Iterator<Cell> cellIterator = row.iterator();
                 Iterator<Cell> columnIterator= rowCol.iterator();
                 int cellIndex = 0;
-                Client client = new Client();
+                Employee employee = new Employee();
                 while (cellIterator.hasNext()){
                     Cell cell = cellIterator.next();
                     Cell colName=columnIterator.next();
                     String cellValue = cellValueAsString(cell);
                     switch (cellIndex){
-                        case 0 -> client.setId((int) cell.getNumericCellValue());
-                        case 1 -> client.setName(cell.getStringCellValue());
-                        case 2 -> client.setSurname(cell.getStringCellValue());
-                        case 3 -> client.setEmail(cell.getStringCellValue());
-                        case 4 -> client.setUsername(cell.getStringCellValue());
-                        case 5 -> client.setBirthDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                        case 6 -> client.setPhone(cellValueAsString(cell));
+                        case 0 -> employee.setId((int) cell.getNumericCellValue());
+                        case 1 -> employee.setName(cell.getStringCellValue());
+                        case 2 -> employee.setSurname(cell.getStringCellValue());
+                        case 3 -> employee.setUsername(cell.getStringCellValue());
+                        case 4 -> employee.setEmail(cell.getStringCellValue());
+                        case 5 -> employee.setBirthDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                         default -> {
-                            if (cellValue != null && !cellValue.equals("no")) {
-                                String key = colName.getStringCellValue().trim(); // Use column name as key
-                                // Check if the property already exists for this client
-                                if (!isPropertyExists(client, key, cellValue)) {
-                                    propertiesList.add(Properties.builder()
-                                            .client(client)
-                                            .key(key)
-                                            .value(cellValue)
-                                            .build());
-                                }
+                            if(cellValue != null && !cellValue.equals("no")) {
+                                propertiesList.add(Properties.builder()
+                                        .employee(employee)
+                                        .key(colName.getStringCellValue())
+                                        .value(cellValue).build());
                             }
                         }
                     }

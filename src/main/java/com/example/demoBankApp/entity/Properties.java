@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(
         name = "properties",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"clientId", "`key`"}) // Escape `key` with backticks
+        uniqueConstraints = @UniqueConstraint(columnNames = {"employeeId", "`key`"}) // Escape `key` with backticks
 )
 public class Properties {
     @Id
@@ -27,6 +27,6 @@ public class Properties {
     private String value;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clientId", nullable = false)
-    private Client client;
+    @JoinColumn(name = "employeeId", nullable = false)
+    private Employee employee;
 }

@@ -1,6 +1,7 @@
 package com.example.demoBankApp.service;
 
 import com.example.demoBankApp.entity.Client;
+import com.example.demoBankApp.entity.Employee;
 import com.example.demoBankApp.entity.Properties;
 import com.example.demoBankApp.repository.PropertiesRepository;
 import jakarta.servlet.ServletOutputStream;
@@ -24,13 +25,13 @@ public class ExcelExportUtils {
     private final XSSFWorkbook workbook;
     private final PropertiesRepository propertiesRepository;
     private XSSFSheet sheet;
-    List<Client> clientList;
+    List<Employee> employeeList;
     Set<String> allKeys=new HashSet<>();
 
 
 
-    public ExcelExportUtils(List<Client> clientList,Set<String> allKeys,PropertiesRepository propertiesRepository){
-        this.clientList=clientList;
+    public ExcelExportUtils(List<Employee> clientList,Set<String> allKeys,PropertiesRepository propertiesRepository){
+        this.employeeList=clientList;
         this.allKeys=allKeys;
         this.propertiesRepository=propertiesRepository;
         workbook=new XSSFWorkbook();
@@ -73,10 +74,9 @@ public class ExcelExportUtils {
         createCell(row,0,"ID",style);
         createCell(row,1,"NAME",style);
         createCell(row,2,"SURNAME",style);
-        createCell(row,3,"EMAIL",style);
-        createCell(row,4,"USERNAME",style);
+        createCell(row,3,"USERNAME",style);
+        createCell(row,4,"EMAIL",style);
         createCell(row,5,"BIRTHDATE",style);
-        createCell(row,6,"PHONE",style);
         int colCount=7;
         for (String col : allKeys) {
             createCell(row,colCount,col,style);
@@ -91,18 +91,17 @@ public class ExcelExportUtils {
         font.setFontHeight(14);
         style.setFont(font);
 
-        for(Client client:clientList){
+        for(Employee employee:employeeList){
             Row row= sheet.createRow(rowCount++);
             int columnCount = 0;
-            createCell(row,columnCount++,client.getId(),style);
-            createCell(row,columnCount++,client.getName(),style);
-            createCell(row,columnCount++,client.getSurname(),style);
-            createCell(row,columnCount++,client.getEmail(),style);
-            createCell(row,columnCount++,client.getUsername(),style);
-            createCell(row,columnCount++,client.getBirthDate().toString(),style);
-            createCell(row,columnCount++,client.getPhone(),style);
+            createCell(row,columnCount++,employee.getId(),style);
+            createCell(row,columnCount++,employee.getName(),style);
+            createCell(row,columnCount++,employee.getSurname(),style);
+            createCell(row,columnCount++,employee.getUsername(),style);
+            createCell(row,columnCount++,employee.getEmail(),style);
+            createCell(row,columnCount++,employee.getBirthDate().toString(),style);
             for (String s : allKeys) {
-                Optional<Properties> propertyOfClient = propertiesRepository.findByKeyAndClient_Id(s, client.getId());
+                Optional<Properties> propertyOfClient = propertiesRepository.findByKeyAndClient_Id(s, employee.getId());
                 if(propertyOfClient.isPresent()){
                     createCell(row,columnCount++,propertyOfClient.get().getValue(),style);
                 }else {
