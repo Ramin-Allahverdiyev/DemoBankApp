@@ -41,13 +41,6 @@ public class Client implements UserDetails {
     )
     private Set<Account> accounts=new HashSet<>();
 
-    @OneToMany(
-            mappedBy = "client",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Properties> propertiesList;
-
     private String phone;
 
     @ManyToMany(fetch = FetchType.EAGER)

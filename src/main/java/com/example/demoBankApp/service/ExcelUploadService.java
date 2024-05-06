@@ -60,8 +60,15 @@ public class ExcelUploadService {
                 while (cellIterator.hasNext()){
                     Cell cell = cellIterator.next();
 //                    Cell colName=columnIterator.next();
+                    if (cellIndex==0){
+                        if(cell.getCellType()!=CellType.NUMERIC)
+                            employee.setId(null);
+                        else{
+                            employee.setId((int) cell.getNumericCellValue());
+                        }
+                    }
                     switch (cellIndex){
-                        case 0 -> employee.setId((int) cell.getNumericCellValue());
+//                        case 0 -> employee.setId((int) cell.getNumericCellValue());
                         case 1 -> employee.setName(cell.getStringCellValue());
                         case 2 -> employee.setSurname(cell.getStringCellValue());
                         case 3 -> employee.setUsername(cell.getStringCellValue());
@@ -103,8 +110,16 @@ public class ExcelUploadService {
                     Cell cell = cellIterator.next();
                     Cell colName=columnIterator.next();
                     String cellValue = cellValueAsString(cell);
+
+                    if (cellIndex==0){
+                        if(cell.getCellType()!=CellType.NUMERIC)
+                            employee.setId(null);
+                        else{
+                            employee.setId((int) cell.getNumericCellValue());
+                        }
+                    }
                     switch (cellIndex){
-                        case 0 -> employee.setId((int) cell.getNumericCellValue());
+//                        case 0 -> employee.setId((int) cell.getNumericCellValue());
                         case 1 -> employee.setName(cell.getStringCellValue());
                         case 2 -> employee.setSurname(cell.getStringCellValue());
                         case 3 -> employee.setUsername(cell.getStringCellValue());
@@ -130,14 +145,6 @@ public class ExcelUploadService {
         return propertiesList;
     }
 
-    private static boolean isPropertyExists(Client client, String key, String value) {
-        // Check if a similar property already exists in the database for this client
-        Optional<Properties> existingProperty = client.getPropertiesList().stream()
-                .filter(prop -> prop.getKey().equals(key) && prop.getValue().equals(value))
-                .findFirst();
-
-        return existingProperty.isPresent();
-    }
 
 
 }

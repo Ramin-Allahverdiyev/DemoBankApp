@@ -26,7 +26,7 @@ public class Properties {
     @Column(nullable = false)
     private String value;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "employeeId", nullable = false)
     private Employee employee;
 }

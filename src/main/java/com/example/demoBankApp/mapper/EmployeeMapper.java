@@ -6,11 +6,13 @@ import com.example.demoBankApp.dto.response.ClientResponse;
 import com.example.demoBankApp.dto.response.EmployeeResponse;
 import com.example.demoBankApp.entity.Client;
 import com.example.demoBankApp.entity.Employee;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-
+@Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
+        ,unmappedTargetPolicy = ReportingPolicy.IGNORE
+        ,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public abstract class EmployeeMapper {
     public static final EmployeeMapper INSTANCE= Mappers.getMapper(EmployeeMapper.class);
 

@@ -12,10 +12,12 @@ import com.example.demoBankApp.service.PropertyService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,19 +34,34 @@ public class ExcelService {
         return employees;
     }
 
+    private void setIdToProperties(List<Properties> propertiesList){
+        for (Properties properties : propertiesList) {
+            List<Integer> id = propertiesRepository.getPropertyIdsByNameAndEmployeeId(properties.getKey(), properties.getEmployee().getId());
+            if (!id.isEmpty())
+                properties.setId(id.get(0));
+        }
+    }
+
+    @Transactional
     public void saveExcelToDatabase(MultipartFile file){
         if (ExcelUploadService.isValidExcelFile(file)){
             try{
                 List<Employee> employees=ExcelUploadService.getClientsDataFromExcel(file.getInputStream());
-                List<Properties> properties=ExcelUploadService.getPropertiesExcel(file.getInputStream());
+                List<Properties> propertiesList=ExcelUploadService.getPropertiesExcel(file.getInputStream());
+                setIdToProperties(propertiesList);
                 for (Employee employee : employees) {
-                    List<Properties> clientProperties = properties.stream()
+                    List<Properties> clientProperties = propertiesList.stream()
                             .filter(prop -> prop.getEmployee().equals(employee))
                             .collect(Collectors.toList());
                     employee.setPropertiesList(clientProperties);
+                    for (Properties properties : employee.getPropertiesList()) {
+                        properties.setEmployee(employee);
+                    }
                 }
+
+
                 employeeRepository.saveAll(employees);
-                propertiesRepository.saveAll(properties);
+//                propertiesRepository.saveAll(properties);
             }catch (IOException e){
                 throw new IllegalArgumentException("Not a Valid Excel File");
             }

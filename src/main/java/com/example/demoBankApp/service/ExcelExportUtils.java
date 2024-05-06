@@ -77,7 +77,7 @@ public class ExcelExportUtils {
         createCell(row,3,"USERNAME",style);
         createCell(row,4,"EMAIL",style);
         createCell(row,5,"BIRTHDATE",style);
-        int colCount=7;
+        int colCount=6;
         for (String col : allKeys) {
             createCell(row,colCount,col,style);
             colCount++;
@@ -101,7 +101,7 @@ public class ExcelExportUtils {
             createCell(row,columnCount++,employee.getEmail(),style);
             createCell(row,columnCount++,employee.getBirthDate().toString(),style);
             for (String s : allKeys) {
-                Optional<Properties> propertyOfClient = propertiesRepository.findByKeyAndClient_Id(s, employee.getId());
+                Optional<Properties> propertyOfClient = propertiesRepository.findByKeyAndEmployee_Id(s, employee.getId());
                 if(propertyOfClient.isPresent()){
                     createCell(row,columnCount++,propertyOfClient.get().getValue(),style);
                 }else {
